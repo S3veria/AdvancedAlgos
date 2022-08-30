@@ -1,11 +1,11 @@
-from numpy import matrix
-
-
-print("Si le sabemos a git")
-print("Lo se, somos god")
 import pprint
 
 def isValid(inMat):
+    """
+    Esta funcion checa si una matriz es valida o no (si hay colisiones de reinas o no)
+
+    Nota: Se deberia de llamar una vez que se inserta una reina nueva para ver si se vale o no
+    """
     queenCountRow=0
     queenCountColumn=0
 
@@ -21,6 +21,8 @@ def isValid(inMat):
         for j in range(len(inMat)):
             if inMat[i][j]!=0:
                 queenCountRow+=1
+
+                #Checking for lateral collision
                 if queenCountRow>1:
                     return False
             
@@ -30,7 +32,7 @@ def isValid(inMat):
 
                 while currRow<=floor and currColumn<=right:
                     if inMat[currRow][currColumn]!=0:
-                        print("bottom right collision")
+                        #print("bottom right collision")
                         return False
                     currRow+=1
                     currColumn+=1
@@ -42,7 +44,7 @@ def isValid(inMat):
 
                 while currRow<=floor and currColumn>=left:
                     if inMat[currRow][currColumn]!=0:
-                        print("bottom left collision")
+                        #print("bottom left collision")
                         return False
                     currRow+=1
                     currColumn-=1
@@ -54,7 +56,7 @@ def isValid(inMat):
 
                 while currRow>=ceiling and currColumn<=right:
                     if inMat[currRow][currColumn]!=0:
-                        print("top right collision")
+                        #print("top right collision")
                         return False
                     currRow-=1
                     currColumn+=1
@@ -66,12 +68,13 @@ def isValid(inMat):
 
                 while currRow>=ceiling and currColumn>=left:
                     if inMat[currRow][currColumn]!=0:
-                        print("top left collision")
+                        #print("top left collision")
                         return False
                     currRow-=1
                     currColumn-=1
 
 
+            #Checking for vertical collision
             if inMat[j][i]!=0:
                 queenCountColumn+=1
                 if queenCountColumn>1:
@@ -79,17 +82,40 @@ def isValid(inMat):
 
     return True
 
+
+def isSolution(inMat, lastInsertedQueen):
+    if lastInsertedQueen==len(inMat) and isValid(inMat):
+        return True
+    return False
+
+
+def exploreBoards(inMat,currQueen):
+    print("Aqui va algo raro")
+    sol=[]
+    if currQueen>len(inMat):
+        return inMat
+
+    for i in range(len(inMat[currQueen-1])):
+        trialMat=inMat[::]
+        trialMat[currQueen-1][i]=currQueen
+        if isValid(trialMat):
+            sol=exploreBoards(trialMat,currQueen+1)
+
+    return sol
+
+
+
 def solveNQueens(n):
     mat=[]
     for i in range(n):
         mat.append([0 for i in range(n)])
-    pprint.pprint(mat)
+    return exploreBoards(mat,1)
 
 
         
                 
 
 
-tMatrix=[[0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-print(isValid(tMatrix))
-solveNQueens(4)
+#tMatrix=[[0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+#print(isValid(tMatrix))
+print(solveNQueens(4))
