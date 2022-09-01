@@ -1,4 +1,5 @@
 import pprint
+import copy
 
 def isValid(inMat):
     """
@@ -90,18 +91,28 @@ def isSolution(inMat, lastInsertedQueen):
 
 
 def exploreBoards(inMat,currQueen):
-    print("Aqui va algo raro")
-    sol=[]
+    #print("Aqui va algo raro")
+    sols=[]
     if currQueen>len(inMat):
-        return inMat
-
+        return sols
     for i in range(len(inMat[currQueen-1])):
-        trialMat=inMat[::]
+        trialMat=copy.deepcopy(inMat)
         trialMat[currQueen-1][i]=currQueen
+        if isSolution(trialMat, currQueen):
+            #print(trialMat)
+            sols.append(trialMat)
+            return sols
+
         if isValid(trialMat):
             sol=exploreBoards(trialMat,currQueen+1)
+            #print(sol)
+            if sol:
+                for i in sol:
+                    newSol=copy.deepcopy(i)
+                    #print(newSol)
+                    sols.append(newSol)
 
-    return sol
+    return sols
 
 
 
@@ -113,9 +124,15 @@ def solveNQueens(n):
 
 
         
-                
+def printMatrix(mat):
+    for i in mat:
+        print(i)
+    print("-------------------------------")
 
 
 #tMatrix=[[0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 #print(isValid(tMatrix))
-print(solveNQueens(4))
+#print(solveNQueens(4))
+nQueens4=solveNQueens(4)
+for solution in nQueens4:
+    printMatrix(solution)
