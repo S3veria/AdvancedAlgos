@@ -1,13 +1,10 @@
-import re
-import pprint
-
 #Definir el total de dinero a cambiar
 total=8
 #Definir las monedas que tenemos dispoibles (El 0 tiene que estar incluido)
 monedas=[0,2,3,7]
 #Hacemos una matriz vacia (Llena de valores None)
 matriz=[[None for i in range(total+1)] for j in range(len(monedas))]
-pprint.pprint(matriz)
+
 
 #Llenamos la primera fila con 0s y el primero con infinito
 for i in range(len(matriz[0])):
@@ -64,7 +61,6 @@ def cambioSinDP(deno, total):
 """
 
 monedasTotales=cambio(3,total) #Aqui obtenemos la solucion al problema
-#pprint.pprint(matriz) 
 
 def cualesMonedas(m, i, j):
     """
@@ -81,9 +77,9 @@ def cualesMonedas(m, i, j):
             res.append(monedas[i])
             j-=monedas[i]
     return res
-
+print(f'Cambio de ${cambio}')
 print(f'Numero de monedas: {monedasTotales}') #Imprimimos el numero de monedas
-print(f'Monedas: {cualesMonedas(matriz,len(monedas)-1,total)}') #Imprimimos cuales monedas dan solucion al problema
+print(f'Denominaciones del cambio: ${cualesMonedas(matriz,len(monedas)-1,total)}') #Imprimimos cuales monedas dan solucion al problema
 
         
         
