@@ -37,12 +37,16 @@ def cambio(deno,total):
     elif deno==0 and total!=0:
         matriz[deno][total]=float('inf')
         return float('inf')
+    #Si la denominacion es mayor al total, entonces tenemos que bajar la denominacion. Metemos esta info en la matriz.
     if monedas[deno]>total:
         res= cambio(deno-1,total)
         matriz[deno][total]=res
         return res
+    #De otra forma, si podemos utilizar la denominacion en el total
     else:
+        #El resultado sera el minimo entre utilizar esa denominacion de moneda o utilizar una denominacion menor
         res= min(cambio(deno-1,total), cambio(deno,total-monedas[deno])+1)
+        #Aqui metemos el resultado en la matriz
         matriz[deno][total]=res
         return res      
 
@@ -59,10 +63,16 @@ def cambioSinDP(deno, total):
         return min(cambioSinDP(deno-1,total),cambioSinDP(deno,total-monedas[deno])+1)
 """
 
-monedasTotales=cambio(3,total)
-pprint.pprint(matriz)
+monedasTotales=cambio(3,total) #Aqui obtenemos la solucion al problema
+#pprint.pprint(matriz) 
 
 def cualesMonedas(m, i, j):
+    """
+    Esta funcion nos ayuda a encontrar las monedas que solucionan el problema dada
+        la matriz m,
+        el numero de denominaciones de monedas
+        y el total de dinero a cambiar
+    """
     res=[]
     while m[i][j] not in (float('inf'), 0):
         if i>0 and m[i][j]==m[i-1][j]:
@@ -72,8 +82,8 @@ def cualesMonedas(m, i, j):
             j-=monedas[i]
     return res
 
-print(f'Numero de monedas: {monedasTotales}')
-print(f'Monedas: {cualesMonedas(matriz,len(monedas)-1,total)}')
+print(f'Numero de monedas: {monedasTotales}') #Imprimimos el numero de monedas
+print(f'Monedas: {cualesMonedas(matriz,len(monedas)-1,total)}') #Imprimimos cuales monedas dan solucion al problema
 
         
         
